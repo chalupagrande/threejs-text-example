@@ -96,14 +96,22 @@
 
   function loadFont() {
     var loader = new THREE.FontLoader();
-    loader.load('helvetiker_regular.typeface.js', function (res) {
+    loader.load('mk3_regular.js', function (res) {
       font = res;
       createText();
     });
   }
 
   function createText() {
-    textGeo = new THREE.TextGeometry( 'FUCK YOU', {
+    var t;
+    if(window.location.hash.length > 0){
+      t = window.location.hash.slice(1).split('_').join(' ')
+
+    } else {
+      t = 'AEMS'
+    }
+
+    textGeo = new THREE.TextGeometry( t, {
       font: font,
       size: size,
       height: height,
@@ -119,6 +127,7 @@
 
     var text = new THREE.Mesh(textGeo, cubeMat)
     text.position.x = -textGeo.boundingBox.max.x/2;
+    text.position.y = textGeo.boundingBox.max.y/2;
     text.castShadow = true;
     scene.add(text)
   }
